@@ -11,17 +11,26 @@ fieldWrap.style.height = 'fit-content';
 function addPlaceholderAndLabel(list) {
   for (const element of list) {
     const label = document.createElement('label');
-
-    element.before(label);
     label.className = 'field-label';
-    label.textContent = element.name.toUpperCase();
-    label.style.fontWeight = '700';
-    label.style.fontSize = '11px';
+
+    if (element.name) {
+      label.textContent = element.name.toUpperCase();
+      element.setAttribute('placeholder', element.name);
+    } else {
+      label.textContent = 'UNNAMED FIELD';
+      console.warn('Element is missing name attribute:', element);
+    }
 
     if (element.id) {
       label.setAttribute('for', element.id);
-      element.setAttribute('placeholder', element.name);
+    } else {
+      console.warn('Element is missing id attribute:', element);
     }
+
+    element.before(label);
+
+    label.style.fontWeight = '700';
+    label.style.fontSize = '11px';
   }
 }
 
