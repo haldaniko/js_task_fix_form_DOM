@@ -1,21 +1,28 @@
 'use strict';
 
-const inputElements = document.querySelectorAll('input');
-const inputsArray = Array.from(inputElements);
+const bodyElement = document.body;
 
-inputsArray.forEach((input) => {
-  const newLabel = document.createElement('label');
+const allFieldForm1 = bodyElement.querySelectorAll('.field-text');
 
-  newLabel.classList.add('field-label');
-  newLabel.setAttribute('for', `${input.id}`);
-  newLabel.textContent = `${input.name}`;
+const fieldWrap = bodyElement.querySelector('.login-wrap');
 
-   input.setAttribute(
-    'placeholder',
-    `${input.name.charAt(0).toUpperCase() + input.name.slice(1)}`,
-  );
+fieldWrap.style.height = 'fit-content';
 
-  const inputParent = input.parentElement;
+function addPlaceholderAndLabel(list) {
+  for (const element of list) {
+    const label = document.createElement('label');
 
-  inputParent.prepend(newLabel);
-});
+    element.before(label);
+    label.className = 'field-label';
+    label.textContent = element.name.toUpperCase();
+    label.style.fontWeight = '700';
+    label.style.fontSize = '11px';
+
+    if (element.id) {
+      label.setAttribute('for', element.id);
+      element.setAttribute('placeholder', element.name);
+    }
+  }
+}
+
+addPlaceholderAndLabel(allFieldForm1);
